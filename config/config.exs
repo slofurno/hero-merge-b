@@ -8,6 +8,7 @@ use Mix.Config
 # if you want to provide default values for your application for
 # 3rd-party users, it should be done in your "mix.exs" file.
 
+  config :heromerge, api_key: System.get_env("HERO_MERGE_KEY")
 # You can configure for your application as:
 #
 #     config :heromerge, key: :value

@@ -54,3 +54,4 @@ defmodule Heromerge.Hero do
     Attributes.valid?(hero.attributes)
   end
 end
+
