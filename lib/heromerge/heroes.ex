@@ -6,6 +6,7 @@ defmodule Heromerge.Heroes do
   @as_hero %Hero{attributes: %Attributes{}}
   @headers [{"Content-Type", "application/json"}]
 
+  #TODO: return errors
   def get do
     token = Application.get_env(:heromerge, :api_key)
     %HTTPoison.Response{body: body} = HTTPoison.get! "#{@base_url}#{token}/heroes"

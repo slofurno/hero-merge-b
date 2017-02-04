@@ -51,7 +51,28 @@ defmodule HeromergeTest do
 
     assert Hero.valid?(invalid_hero) == false
 
+    almost_valid_hero = %Hero{
+      hero_name: "name",
+      real_name: "name",
+      gender: "Female",
+      weaknesses: [],
+      powers: [],
+      attributes: %Attributes{
+        intelligence: 50,
+        strength: 50,
+        speed: 50,
+        durability: 50,
+        power: 50,
+        combat: 50
+      }
+    }
+
+    assert Hero.valid?(almost_valid_hero) == false
+
     valid_hero = %Hero{
+      hero_name: "name",
+      real_name: "name",
+      gender: "Female",
       weaknesses: ["weakness1", "weakness2"],
       powers: ["power1", "power2", "power3"],
       attributes: %Attributes{
