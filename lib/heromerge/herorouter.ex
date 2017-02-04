@@ -3,6 +3,7 @@ defmodule Heromerge.HeroRouter do
   alias Heromerge.MergeRequest
   alias Heromerge.Hero
   alias Heromerge.Hero.Attributes
+  alias Heromerge.Heroes
 
   @as_hero %Hero{attributes: %Attributes{}}
 
@@ -10,7 +11,11 @@ defmodule Heromerge.HeroRouter do
   plug :dispatch
 
   get "/" do
-    send_resp(conn, 200, "all heroes")
+    heroes = Poison.encode!(Heroes.get)
+
+    conn
+    |> put_resp_content_type("application/json; charset=utf-8")
+    |> send_resp(200, heroes)
   end
 
   post "/" do

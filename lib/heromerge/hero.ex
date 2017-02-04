@@ -5,6 +5,7 @@ defmodule Heromerge.Hero do
     :id,
     :real_name,
     :hero_name,
+    :gender,
     attributes: %Attributes{},
     powers: [],
     weaknesses: []

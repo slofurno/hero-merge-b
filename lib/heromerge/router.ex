@@ -9,9 +9,10 @@ defmodule Heromerge.Router do
     send_resp(conn, 200, "world")
   end
 
-  forward "/heroes", to: HeroRouter
+  forward "/api/heroes", to: HeroRouter
 
   match _ do
+    IO.inspect conn
     send_resp(conn, 404, "oops")
   end
 end
