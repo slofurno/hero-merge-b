@@ -24,17 +24,20 @@ defmodule Heromerge.HeroRouter do
   end
 
   post "/merge" do
-    {:ok, body, conn} = read_body(conn)
-    merge_request = Poison.decode!(body, as: %MergeRequest{hero: @as_hero})
-    #TODO:refactor this so we can pipeline
-    case MergeRequest.valid?(merge_request) do
-      true ->
-        hero = Heroes.create(merge_request.hero) |> Poison.encode!
-        conn
-        |> put_resp_content_type("application/json; charset=utf-8")
-        |> send_resp(200, hero)
-      false ->
-        send_resp(conn, 400, "world")
+
+    with {:ok, body, conn} <- read_body(conn),
+      {:ok, merge_request} <- Poison.decode(body, as: %MergeRequest{hero: @as_hero}),
+      {:ok, hero} <- MergeRequest.check_hero(merge_request),
+      {:ok, hero} <- Heroes.create(hero),
+      {:ok, hero} <- Poison.encode(hero)
+    do
+      conn
+      |> put_resp_content_type("application/json; charset=utf-8")
+      |> send_resp(200, hero)
+    end
+    |> case do
+      {:error, error} -> send_resp(conn, 400, "world")
+      ok -> ok
     end
   end
 

@@ -23,6 +23,7 @@ defmodule Heromerge.Heroes do
     body = Poison.encode!(hero |> Map.delete(:id))
     {:ok, %HTTPoison.Response{body: body, status_code: 201}} =
       HTTPoison.post("#{@base_url}#{token}/heroes", body, @headers)
-    Poison.decode!(body, as: @as_hero)
+    hero = Poison.decode!(body, as: @as_hero)
+    {:ok, hero}
   end
 end

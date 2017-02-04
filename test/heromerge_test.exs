@@ -25,21 +25,21 @@ defmodule HeromergeTest do
       powers: ["power1", "power3", "power6"]
     }
 
-    assert MergeRequest.valid?(c, a ,b) == true
+    assert {:ok, _} = MergeRequest.check_hero(c, a ,b)
 
     d = %Hero{
       weaknesses: ["weakness1", "weakness3", "weakness4"],
       powers: ["power1", "power3", "power6"]
     }
 
-    assert MergeRequest.valid?(d, a ,b) == false
+    assert {:error, _} = MergeRequest.check_hero(d, a ,b)
 
     e = %Hero{
       weaknesses: ["weakness1", "weakness2", "weakness3", "weakness4"],
       powers: ["power1", "power3", "power7"]
     }
 
-    assert MergeRequest.valid?(e, a ,b) == false
+    assert {:error, _} = MergeRequest.check_hero(e, a ,b)
   end
 
   test "creating hero" do
