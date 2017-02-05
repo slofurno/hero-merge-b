@@ -40,6 +40,9 @@ defmodule HeromergeTest do
     }
 
     assert {:error, _} = MergeRequest.check_hero(e, a ,b)
+
+    assert {:error, _} = MergeRequest.check_hero(%MergeRequest{hero: e, from: [1,2,3]})
+
   end
 
   test "creating hero" do
@@ -86,5 +89,47 @@ defmodule HeromergeTest do
     }
 
     assert Hero.valid?(valid_hero) == true
+  end
+
+  test "merging attributes" do
+    a = %Attributes{
+      intelligence: 50,
+      strength: 50,
+      speed: 50,
+      durability: 50,
+      power: 50,
+      combat: 50
+    }
+
+    b = %Attributes{
+      intelligence: 20,
+      strength: 20,
+      speed: 20,
+      durability: 20,
+      power: 20,
+      combat: 20
+    }
+
+    invalid_attribute = %Attributes{
+      intelligence: 40,
+      strength: 20,
+      speed: 20,
+      durability: 50,
+      power: 20,
+      combat: 20
+    }
+
+    assert Attributes.from_sources?(invalid_attribute, [a,b]) == false
+
+    valid_attribute = %Attributes{
+      intelligence: 50,
+      strength: 20,
+      speed: 20,
+      durability: 50,
+      power: 20,
+      combat: 20
+    }
+
+    assert Attributes.from_sources?(valid_attribute, [a,b]) == true
   end
 end
